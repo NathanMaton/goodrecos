@@ -1,9 +1,9 @@
 # Goodreads recommendation app & Django tutorial
 
-##TOC
--[Goal & Prep](#prep)
--[Basic Bootstrap UI](#bootstrap)
--[Still to-do](#to-do)
+## TOC
+-[Goal & Prep](#prep) 
+-[Basic Bootstrap UI](#bootstrap) 
+-[Still to-do](#to-do) 
 
 ## <a name="prep">Goal & Prep</a>
 My goal was to build a app that does Goodreads book recommendations first based on [this](https://www.kaggle.com/zygmunt/goodbooks-10k/home) nicely put together 10k book list.
