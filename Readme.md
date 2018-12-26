@@ -3,7 +3,9 @@
 ## TOC
 -[Goal & Prep](#prep).  
 -[Basic Bootstrap UI](#bootstrap).  
+-[Basic incorporate recommender into app (v0)](#v0)
 -[Still to-do](#to-do). 
+
 
 ## <a name="prep">Goal & Prep</a>
 My goal was to build a app that does Goodreads book recommendations first based on [this](https://www.kaggle.com/zygmunt/goodbooks-10k/home) nicely put together 10k book list.
@@ -52,12 +54,40 @@ I had some fun here applying earlier knowledge and creating header and footer te
 
 One part that confused me is how the book_dict object I put in is pulled into the template. I kept trying to do {{book_dict.author}} but eventually discovered all I needed was {{author}}, the view seemed to already open up the book_dict.
 
+## <a name="v0">Basic recommender incorporated (v0)</a>
+
+I've now gone ahead and incorporated the recommender into my app. This had a few oddities.  
+
+First is that for whatever reason my conda environment can run jupyter notebooks that have numpy, pandas, sci-kit learn etc installed even if those packages aren't installed in the environment. I need to further investigate how Jupyter works and it seems it is installed at root in my computer. Not sure if that'll ever be an issue. I installed the packages in my env with a series of conda install -xyz commands. That resolved that issue.  
+
+Then I went through a series of mini-steps pulling in my code in a very basic way: without a database. I put in the necessary csv files from my Jupyter Notebook and then imported those in the view tab. This is probably not ideal as I think it means any view will at least have to load scipy and other somewhat chunky things.  
+
+To make this work I created a few functions in view.py to make my code a tiny bit cleaner (still lots of room for improvement). I then used some code from [this](https://towardsdatascience.com/collaborative-filtering-based-recommendation-systems-exemplified-ecbffe1c20b1) great article on building collaborative filtering systems. She uses a Cosine and Pearson similarity metric in the code (via the NearestNeighbors model) and they both performed around the same so I just chose the one that was already loaded last. As I now re-read her article she says Cosine is good when data is sparse like this dataset and Pearson is good when there is different rating scales/user bias. There isn't different rating scales and I haven't looked at the bias in the ratings. I could inspect that.  
+
+Here's the function that finds similar users:  
+```python
+def findksimilarusers(user_id, ratings, metric, k):
+    similarities=[]
+    indices=[]
+    model_knn = NearestNeighbors(metric = metric, algorithm = 'brute') 
+    model_knn.fit(ratings)
+
+    distances, indices = model_knn.kneighbors(ratings.iloc[user_id-1, :].values.reshape(1, -1), n_neighbors = k+1)
+    similarities = 1-distances.flatten()
+    for i in range(0, len(indices.flatten())):
+        if indices.flatten()[i]+1 == user_id:
+            continue;
+            
+    return similarities,indices
+```
+
+
 ## <a name="to-do">Still to do</a>
 
-So far I've got hardcoded books showing up on a boostrap app with Django. I've separately also played with some data & modeling of it. Next steps include:
-- Finalize the recommendation model and train it 
-- Try hardcoded recommendations
-- Get fit model into database
-- Update the UI to accept inputs & output recommendations.
+So far I've got a Pearsons similarity recommender where I hardcode which user I recomend books for in my view and a fairly slow app. Next steps include:
+- Inspect bias in ratings data and decide if Cosine would be better.  
+- Update the UI to either auth in the user or let the user input an id and give a little context on why to choose which id in the dataset or let the user input books they've read and use their new user id (this may require more changes).  
+- Improve performance & use a database. 
+- Deploy app. This also will require me to test if the requirements.txt file I set up works as I manually installed those things with conda install.  
 - Celebrate for doing a fun project where I got to learn a ton and overcome many challenges!
 :fireworks::smiley::fireworks:

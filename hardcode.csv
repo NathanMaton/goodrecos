@@ -1,0 +1,6 @@
+,book_id,goodreads_book_id,authors,title,image_url,small_image_url,average_rating
+6,7,5907,J.R.R. Tolkien,The Hobbit,https://images.gr-assets.com/books/1372847500m/5907.jpg,https://images.gr-assets.com/books/1372847500s/5907.jpg,4.25
+8,9,960,Dan Brown,"Angels & Demons  (Robert Langdon, #1)",https://images.gr-assets.com/books/1303390735m/960.jpg,https://images.gr-assets.com/books/1303390735s/960.jpg,3.85
+9,10,1885,Jane Austen,Pride and Prejudice,https://images.gr-assets.com/books/1320399351m/1885.jpg,https://images.gr-assets.com/books/1320399351s/1885.jpg,4.24
+27,28,7624,William Golding,Lord of the Flies,https://images.gr-assets.com/books/1327869409m/7624.jpg,https://images.gr-assets.com/books/1327869409s/7624.jpg,3.64
+55,56,1162543,Stephenie Meyer,"Breaking Dawn (Twilight, #4)",https://images.gr-assets.com/books/1361039438m/1162543.jpg,https://images.gr-assets.com/books/1361039438s/1162543.jpg,3.7

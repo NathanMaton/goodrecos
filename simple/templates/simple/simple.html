@@ -4,26 +4,15 @@
 <div class="container">
 
   <div class="simple">
-		<h1>Rate Books</h1>
-		<p class="lead">Please rate as many books as possible to get the best recommendation for you.</p>
-		<p class="lead"> 
-		   <img src={{img_url}} class="img-fluid" alt="Responsive image">
-		   <br/>{{author}}
-		   <br/>{{title}}
-		   <br/>Input review:
-    	</p>
-    	<p class="lead"> 
-		   <img src={{img_url}} class="img-fluid" alt="Responsive image">
-		   <br/>{{author}}
-		   <br/>{{title}}
-		   <br/>Input review:
-    	</p>
-    	<p class="lead"> 
-		   <img src={{img_url}} class="img-fluid" alt="Responsive image">
-		   <br/>{{author}}
-		   <br/>{{title}}
-		   <br/>Input review:
-    	</p>
+		<h1>Recommendations</h1>
+		<p class="lead">Here are some recommendations:</p>
+		{% for b in d %}
+			<p class="lead"> 
+			   <img src={{b.2}} class="img-fluid" alt="Responsive image">
+			   <br/>{{b.0}}
+			   <br/>{{b.1}}
+    		</p>
+	    {% endfor %}
     
 	</div>
 

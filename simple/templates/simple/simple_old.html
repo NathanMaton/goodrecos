@@ -1,23 +1,32 @@
-{# Load the tag library #}
-{% load bootstrap3 %}
-
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-
-{# Display django.contrib.messages as Bootstrap alerts #}
-{% bootstrap_messages %}
+{% include 'simple/base.html' %}
 
 
+<div class="container">
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Contact App</title>
-</head>
-<body>
-    <div>
-        Yay!
-    </div>
-</body>
-</html>
+  <div class="simple">
+		<h1>Rate Books</h1>
+		<p class="lead">Please rate as many books as possible to get the best recommendation for you.</p>
+		<p class="lead"> 
+		   <img src={{img_url}} class="img-fluid" alt="Responsive image">
+		   <br/>{{author}}
+		   <br/>{{title}}
+		   <br/>Input review:
+    	</p>
+    	<p class="lead"> 
+		   <img src={{img_url}} class="img-fluid" alt="Responsive image">
+		   <br/>{{author}}
+		   <br/>{{title}}
+		   <br/>Input review:
+    	</p>
+    	<p class="lead"> 
+		   <img src={{img_url}} class="img-fluid" alt="Responsive image">
+		   <br/>{{author}}
+		   <br/>{{title}}
+		   <br/>Input review:
+    	</p>
+    
+	</div>
+
+</div><!-- /.container -->
+
+{% include 'simple/footer.html' %}
