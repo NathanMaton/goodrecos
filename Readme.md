@@ -62,6 +62,8 @@ First is that for whatever reason my conda environment can run jupyter notebooks
 
 Then I went through a series of mini-steps pulling in my code in a very basic way: without a database. I put in the necessary csv files from my Jupyter Notebook and then imported those in the view tab. This is probably not ideal as I think it means any view will at least have to load scipy and other somewhat chunky things.  
 
+One thing I didn't fully understand is how Contexts work in Django that pass info from the view to the template. I was worried my list in a dictionary wrapper wouldn't work as some examples may be dicts in dicts? In any case, it worked fine so I could just further inspect that.
+
 To make this work I created a few functions in view.py to make my code a tiny bit cleaner (still lots of room for improvement). I then used some code from [this](https://towardsdatascience.com/collaborative-filtering-based-recommendation-systems-exemplified-ecbffe1c20b1) great article on building collaborative filtering systems. She uses a Cosine and Pearson similarity metric in the code (via the NearestNeighbors model) and they both performed around the same so I just chose the one that was already loaded last. As I now re-read her article she says Cosine is good when data is sparse like this dataset and Pearson is good when there is different rating scales/user bias. There isn't different rating scales and I haven't looked at the bias in the ratings. I could inspect that.  
 
 Here's the function that finds similar users:  
