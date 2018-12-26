@@ -3,7 +3,7 @@
 ## TOC
 -[Goal & Prep](#prep).  
 -[Basic Bootstrap UI](#bootstrap).  
--[Basic incorporate recommender into app (v0)](#v0)
+-[Basic incorporate recommender into app (v0)](#v0). 
 -[Still to-do](#to-do). 
 
 
@@ -80,6 +80,9 @@ def findksimilarusers(user_id, ratings, metric, k):
             
     return similarities,indices
 ```
+See what this looks like in this screenshot:
+
+![V0 UI](v0ui.png)
 
 
 ## <a name="to-do">Still to do</a>
