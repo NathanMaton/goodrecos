@@ -1,3 +1,4 @@
+gunicorn
 django-bootstrap3
 numpy==1.15.4
 pandas==0.23.4
