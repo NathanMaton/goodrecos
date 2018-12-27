@@ -3,7 +3,7 @@
 ## TOC
 -[Goal & Prep](#prep).  
 -[Basic Bootstrap UI](#bootstrap).  
--[Basic incorporate recommender into app (v0)](#v0).
+-[Basic incorporate recommender into app (v0)](#v0). 
 -[v0 deploy](#deploy-v0)  
 -[Current endpoint notes](#to-do). 
 
