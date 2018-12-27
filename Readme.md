@@ -3,8 +3,9 @@
 ## TOC
 -[Goal & Prep](#prep).  
 -[Basic Bootstrap UI](#bootstrap).  
--[Basic incorporate recommender into app (v0)](#v0). 
--[Still to-do](#to-do). 
+-[Basic incorporate recommender into app (v0)](#v0).
+-[v0 deploy](#deploy-v0)  
+-[Current endpoint notes](#to-do). 
 
 
 ## <a name="prep">Goal & Prep</a>
@@ -89,20 +90,31 @@ See what this looks like in this screenshot:
 As I thought about what to do next I also investigated the GoodReads API to see about getting users' ratings data. I decided not to pursue this due to their API status (it is complained about on their own site) and the web scraping didn't seem straightforward when I tried for a little time. May come back to that idea but scraping it from my to-do list needs.
 
 
-## <a name="deploy v0">Deploy v0</a>
+## <a name="deploy-v0">Deploy v0</a>
 
-I decided to deploy my v0 app before going ahead with anything else. I went with Heroku as it seemed simple. In my first deploy it failed and I didn't quite get why the errors led me to articles online about needing profiles or pipfiles perhaps. I ended up getting this Python demo app from Heroku, deploying it as it was very quickly following their instructions and then moving my app over to theirs since it is very basic. That deployed after I fixed the requirements.txt file to have '==' instead of '=' to set package versions. That was pretty cool. :fireworks::smiley::fireworks:  
+I decided to deploy my v0 app before going ahead with anything else. I went with Heroku as it seemed simple. In my first deploy it failed and I didn't quite get why the errors led me to articles online about needing profiles or pipfiles perhaps. I ended up getting [this](https://devcenter.heroku.com/articles/getting-started-with-python#prepare-the-app) Python demo app from Heroku, deploying it as it was very quickly following their instructions and then moving my app over to theirs since it is very basic. That deployed after I fixed the requirements.txt file to have '==' instead of '=' to set package versions. That was pretty cool. See first deploy [here](https://cryptic-caverns-72350.herokuapp.com/):fireworks::smiley::fireworks:  
 
-I'm about to now see if fixing the requirements.txt file in this codebase and moving it one directory lower (to root) will help.
+I'm about to now see if fixing the requirements.txt file in this codebase and moving it one directory lower (to root) will help.  
 
-## <a name="to-do">Still to do</a>
+I went ahead and did a bit of debugging to get the deploy working with this codebase. It required a few fixings you can see in my commit history but I'll outline them below as well. They included:  
+- Moving my requirements file to the root directory. 
+- Adding modules I'd use in the app that I forgot were already installed locally (Django lol). 
+- Adding a Procfile with this code: web: gunicorn diy.wsgi --log-file -  
+- Disabeling some static configuration settings on Heroku with this line: heroku config:set DISABLE_COLLECTSTATIC=1. 
+
+I think that covers the main things I did.
+
+## <a name="to-do">Current endpoint notes</a>
+
+There are plenty of things I could still do with this basic recommendation app, but none I'm planning to do right now. After I push this I'll definitely celebrate. As I had listed previously:  
+- Celebrate for doing a fun project where I got to learn a ton and overcome many challenges!
+:fireworks::smiley::fireworks:  
+
+So that's next. In the future here's a few more notes:
 
 So far I've got a Pearsons similarity recommender where I hardcode which user I recomend books for in my view and a fairly slow app. I've decided to pause here a
 
-Next steps could include:
-- Inspect bias in ratings data and decide if Cosine would be better.  
-- Let the user input an id and give a little context on why to choose which id in the dataset or let the user input books they've read and use their new user id (this may require more changes). (not interested in trying authentication for now - see more above.)
+Future steps could include:
+- Upgrade front end so user can do something like rate books and get recommendations. 
+- Inspect bias in ratings data and decide if Cosine would be better similarity metric than Pearson. Do lots more things to improve my model including trying SVD or other models.  
 - Improve performance & use a database. 
-- Deploy app. This also will require me to test if the requirements.txt file I set up works as I manually installed those things with conda install.  
-- Celebrate for doing a fun project where I got to learn a ton and overcome many challenges!
-:fireworks::smiley::fireworks:
