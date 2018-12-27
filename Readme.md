@@ -91,7 +91,7 @@ As I thought about what to do next I also investigated the GoodReads API to see 
 
 ## <a name="to-do">Still to do</a>
 
-So far I've got a Pearsons similarity recommender where I hardcode which user I recomend books for in my view and a fairly slow app. Next steps include:
+So far I've got a Pearsons similarity recommender where I hardcode which user I recomend books for in my view and a fairly slow app. Next steps could include:
 - Inspect bias in ratings data and decide if Cosine would be better.  
 - Let the user input an id and give a little context on why to choose which id in the dataset or let the user input books they've read and use their new user id (this may require more changes). (not interested in trying authentication for now - see more above.)
 - Improve performance & use a database. 

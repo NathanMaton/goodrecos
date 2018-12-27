@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+
 #create 2 models, a books model and user model
 
 #books model should contain:
