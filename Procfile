@@ -1,1 +1,1 @@
-web: gunicorn dep:diy
+web: gunicorn diy.wsgi --log-file -
