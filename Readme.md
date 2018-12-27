@@ -89,9 +89,17 @@ See what this looks like in this screenshot:
 As I thought about what to do next I also investigated the GoodReads API to see about getting users' ratings data. I decided not to pursue this due to their API status (it is complained about on their own site) and the web scraping didn't seem straightforward when I tried for a little time. May come back to that idea but scraping it from my to-do list needs.
 
 
+## <a name="deploy v0">Deploy v0</a>
+
+I decided to deploy my v0 app before going ahead with anything else. I went with Heroku as it seemed simple. In my first deploy it failed and I didn't quite get why the errors led me to articles online about needing profiles or pipfiles perhaps. I ended up getting this Python demo app from Heroku, deploying it as it was very quickly following their instructions and then moving my app over to theirs since it is very basic. That deployed after I fixed the requirements.txt file to have '==' instead of '=' to set package versions. That was pretty cool. :fireworks::smiley::fireworks:  
+
+I'm about to now see if fixing the requirements.txt file in this codebase and moving it one directory lower (to root) will help.
+
 ## <a name="to-do">Still to do</a>
 
-So far I've got a Pearsons similarity recommender where I hardcode which user I recomend books for in my view and a fairly slow app. Next steps could include:
+So far I've got a Pearsons similarity recommender where I hardcode which user I recomend books for in my view and a fairly slow app. I've decided to pause here a
+
+Next steps could include:
 - Inspect bias in ratings data and decide if Cosine would be better.  
 - Let the user input an id and give a little context on why to choose which id in the dataset or let the user input books they've read and use their new user id (this may require more changes). (not interested in trying authentication for now - see more above.)
 - Improve performance & use a database. 
