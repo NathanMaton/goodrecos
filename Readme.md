@@ -86,12 +86,14 @@ See what this looks like in this screenshot:
 
 ![V0 UI](v0ui.png)
 
+As I thought about what to do next I also investigated the GoodReads API to see about getting users' ratings data. I decided not to pursue this due to their API status (it is complained about on their own site) and the web scraping didn't seem straightforward when I tried for a little time. May come back to that idea but scraping it from my to-do list needs.
+
 
 ## <a name="to-do">Still to do</a>
 
 So far I've got a Pearsons similarity recommender where I hardcode which user I recomend books for in my view and a fairly slow app. Next steps include:
 - Inspect bias in ratings data and decide if Cosine would be better.  
-- Update the UI to either auth in the user or let the user input an id and give a little context on why to choose which id in the dataset or let the user input books they've read and use their new user id (this may require more changes).  
+- Let the user input an id and give a little context on why to choose which id in the dataset or let the user input books they've read and use their new user id (this may require more changes). (not interested in trying authentication for now - see more above.)
 - Improve performance & use a database. 
 - Deploy app. This also will require me to test if the requirements.txt file I set up works as I manually installed those things with conda install.  
 - Celebrate for doing a fun project where I got to learn a ton and overcome many challenges!
