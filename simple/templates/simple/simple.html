@@ -3,18 +3,29 @@
 
 <div class="container">
 
-  <div class="simple">
-		<h1>Recommendations</h1>
-		<p class="lead">Here are some recommendations:</p>
-		{% for b in d %}
+    <div class="simple">
+		<h1>Intro</h1>
+		<p class="lead">This project uses a subest of the Goodbooks 10k dataset
+		to recommend books. There are 1806 users and 5034 books right now in the data.
+		
+		To test this please enter in a number between 1 to 1806 to look up what books that user has read and what they're recommended
+
+
+		</p>
+		<!--{% for b in d %}
 			<p class="lead"> 
-			   <img src={{b.2}} class="img-fluid" alt="Responsive image">
-			   <br/>{{b.0}}
-			   <br/>{{b.1}}
+			   {{b}}
     		</p>
 	    {% endfor %}
-    
+	-->
+		<form action="/recos/" method="get">
+		    <label for="i">Your name: </label>
+		    <input id="i" type="text" name="i" value="1">
+		    <input type="submit" value="OK">
+		</form>
 	</div>
+	
+</div>
 
 </div><!-- /.container -->
 

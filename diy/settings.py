@@ -27,7 +27,9 @@ SECRET_KEY = 'CHANGE_ME!!!! (P.S. the SECRET_KEY environment variable will be us
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['afternoon-retreat-36992.herokuapp.com']
+ALLOWED_HOSTS = ['afternoon-retreat-36992.herokuapp.com',
+                'localhost'
+                ]
 
 
 # Application definition
@@ -72,6 +74,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'diy.wsgi.application'
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+
+    # Put your context processors here
+
+    'django.core.context_processors.request',
+)
 
 
 # Database

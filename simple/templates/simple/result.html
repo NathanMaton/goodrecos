@@ -1,0 +1,41 @@
+{% include 'simple/base.html' %}
+
+
+<div class="container">
+
+    
+    <div class="simple">
+		<h1>Books the user liked</h1>
+		<p class="lead">Here are some books the user liked:</p>
+			<div class="row">
+			{% for b in t %}
+				<div class="col-md-15">
+					    <a href="{{b.3}}">
+					    	<img src={{b.2}} class="img-fluid" alt="Responsive image">
+					    	<br/>{{b.1}}
+					    </a>
+					    	<br/>{{b.0}}
+	    		</div>
+		    {% endfor %}
+		    </div>
+	</div>
+
+	<div class="simple">
+		<h1>Recommendations</h1>
+		<p class="lead">Here are 5 recommendations from the system:</p>
+			<div class="row">
+			{% for b in c %}
+				<div class="col-md-15">
+					    <a href="{{b.3}}">
+					    	<img src={{b.2}} class="img-fluid" alt="Responsive image">
+					    	<br/>{{b.1}}
+					    </a>
+					    	<br/>{{b.0}}
+	    		</div>
+		    {% endfor %}
+		    </div>
+	</div>
+
+</div><!-- /.container -->
+
+{% include 'simple/footer.html' %}

@@ -11,13 +11,48 @@ from math import sqrt
 import sys, os
 
 
-def findksimilarusers(user_id, ratings, metric, k):
+
+#Routes
+def contact_list(request):	
+    return render(request, 'simple/simple.html')
+
+
+def recos(request):
+	gr_id = int(request.GET['i'])
+	d = test(gr_id)
+	return render(request, 'simple/result.html', d )
+
+
+
+
+
+##Helper functions.
+def getreadbooks(indices,b):
+	#needs indices
+	read = b.iloc[indices,:]
+	#create dict object
+	read['goodreads_book_id'] = read['goodreads_book_id'].apply(lambda x:'https://www.goodreads.com/book/show/'+str(x))
+	ans = read[['book_id','goodreads_book_id', 'authors', 'title','image_url','small_image_url','average_rating']]
+	#t = {'t':ans[['authors','title','image_url']].values.tolist()}
+	t = ans[['authors','title','image_url','goodreads_book_id']].values.tolist()
+	return t
+
+
+def randomsample(n):
+	M = pd.read_csv('pivot.csv')
+	uidlist = np.array(M.user_id.values.tolist())
+	np.random.shuffle(uidlist)
+	res = {'d':uidlist[:n]}
+	return res
+
+
+def findksimilarusers(user_id, M, metric, k):
     similarities=[]
     indices=[]
     model_knn = NearestNeighbors(metric = metric, algorithm = 'brute') 
-    model_knn.fit(ratings)
+    model_knn.fit(M)
 
-    distances, indices = model_knn.kneighbors(ratings.iloc[user_id-1, :].values.reshape(1, -1), n_neighbors = k+1)
+    distances, indices = model_knn.kneighbors(M.iloc[user_id-1, :].values.reshape(1, -1), n_neighbors = k+1)
     similarities = 1-distances.flatten()
     for i in range(0, len(indices.flatten())):
         if indices.flatten()[i]+1 == user_id:
@@ -42,27 +77,22 @@ def create_reco(similarities,indices,M,b,u):
 	tempdf = pd.DataFrame(s)
 	t2 = tempdf[tempdf[1]<1][:5].index
 	recos = b.iloc[t2,:]
+	recos['goodreads_book_id'] = recos['goodreads_book_id'].apply(lambda x:'https://www.goodreads.com/book/show/'+str(x))
 	ans = recos[['book_id','goodreads_book_id', 'authors', 'title','image_url','small_image_url','average_rating']]
-	d = {'d':ans[['authors','title','image_url']].values.tolist()}
-	return d
+	#d = {'c':ans[['authors','title','image_url']].values.tolist()}
+	c=ans[['authors','title','image_url','goodreads_book_id']].values.tolist()
+	return c
 
 def test(u):
 	b = pd.read_csv( 'books.csv' )
 	M = pd.read_csv('pivot.csv')
-	h = pd.read_csv('hardcode.csv')
-	d = {'d':h[['authors','title','image_url']].values.tolist()}
+	#h = pd.read_csv('hardcode.csv')
+	row = M.iloc[u,:].nonzero()[0]
+	read_indices = M.iloc[u,row][1:6].index.astype(int)
+	#call the readbooks function I wrote.
+	t = getreadbooks(read_indices,b)
 	similarities,indices = findksimilarusers(u,M,'correlation',4)
-	fa = create_reco(similarities,indices,M,b,u) # fa = final answer
-	#probably can delete
-	book_dict={
-    'author':'Suzanne Collins',
-    'title':'The Hunger Games',
-    'img_url':'https://images.gr-assets.com/books/1447303603m/2767052.jpg'
-    }
+	c = create_reco(similarities,indices,M,b,u) # fa = final answer
+	fa = {'t':t,'c':c}
 	return fa
 
-
-def contact_list(request):
-    d = test(40)
-    
-    return render(request, 'simple/simple.html',d)

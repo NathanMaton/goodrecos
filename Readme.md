@@ -90,7 +90,7 @@ See what this looks like in this screenshot:
 As I thought about what to do next I also investigated the GoodReads API to see about getting users' ratings data. I decided not to pursue this due to their API status (it is complained about on their own site) and the web scraping didn't seem straightforward when I tried for a little time. May come back to that idea but scraping it from my to-do list needs.
 
 
-## <a name="deploy-v0">Deploy v0</a>
+## <a name="deploy-v0">Deploy v0.1</a>
 
 I decided to deploy my v0 app before going ahead with anything else. I went with Heroku as it seemed simple. In my first deploy it failed and I didn't quite get why the errors led me to articles online about needing profiles or pipfiles perhaps. I ended up getting [this](https://devcenter.heroku.com/articles/getting-started-with-python#prepare-the-app) Python demo app from Heroku, deploying it as it was very quickly following their instructions and then moving my app over to theirs since it is very basic. That deployed after I fixed the requirements.txt file to have '==' instead of '=' to set package versions. That was pretty cool. See first deploy [here](https://cryptic-caverns-72350.herokuapp.com/):fireworks::smiley::fireworks:  
 
@@ -102,19 +102,20 @@ I went ahead and did a bit of debugging to get the deploy working with this code
 - Adding a Procfile with this code: web: gunicorn diy.wsgi --log-file -  
 - Disabeling some static configuration settings on Heroku with this line: heroku config:set DISABLE_COLLECTSTATIC=1. 
 
-I think that covers the main things I did.
+I think that covers the main things I did.  
+
+I did come back the next day and add in some more fun stuff where the user can actually interact with the app picking a number and seeing what they liked and what's recommended. I learned a little more Django routing, templating, context related things and found a few bugs I removed. I'm calling this v0.1 and while there's certainly still some errors it is a good showcase for someone interested in a demo app and learning a bit.  
+
+![v0.1](v0.1.png)
 
 ## <a name="to-do">Current endpoint notes</a>
 
-There are plenty of things I could still do with this basic recommendation app, but none I'm planning to do right now. After I push this I'll definitely celebrate. As I had listed previously:  
-- Celebrate for doing a fun project where I got to learn a ton and overcome many challenges!
-:fireworks::smiley::fireworks:  
+There are plenty of things I could still do with this basic recommendation app, but none I'm planning to do right now. This was a fun project! :fireworks::smiley::fireworks:  
 
-So that's next. In the future here's a few more notes:
+In the future here's a few more notes:
 
 So far I've got a Pearsons similarity recommender where I hardcode which user I recomend books for in my view and a fairly slow app. I've decided to pause here a
 
 Future steps could include:
-- Upgrade front end so user can do something like rate books and get recommendations. 
 - Inspect bias in ratings data and decide if Cosine would be better similarity metric than Pearson. Do lots more things to improve my model including trying SVD or other models.  
-- Improve performance & use a database. 
+- Improve performance, engine & use a database. 
