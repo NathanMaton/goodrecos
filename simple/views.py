@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect
-
 import numpy as np
 import pandas as pd
 import sklearn.metrics as metrics
@@ -8,51 +7,56 @@ from scipy.spatial.distance import correlation, cosine
 from sklearn.metrics import pairwise_distances
 from sklearn.metrics import mean_squared_error
 from math import sqrt
-import sys, os
+import sys
+import os
 
 
-
-#Routes
-def contact_list(request):	
+# Routes - Basic routes just to display a home and results page.
+def home(request):
     return render(request, 'simple/simple.html')
 
 
 def recos(request):
-	gr_id = int(request.GET['i'])
-	d = test(gr_id)
-	return render(request, 'simple/result.html', d )
+    user_id = int(request.GET['i'])
+    d = recommend(user_id)
+    return render(request, 'simple/result.html', d)
 
 
+# Helper functions.
+def recommend(user_id):
+	books = pd.read_csv( 'books.csv' )
+	pivot_data = pd.read_csv('pivot.csv')
+	row = pivot_data.iloc[user_id,:].nonzero()[0]
+	read_indices = pivot_data.iloc[user_id, row][1:6].index.astype(int)
+	
+	#Get list of books user already read and liked
+	t = getreadbooks(read_indices, books)
+	#find similar users
+	similarities,indices = findksimilarusers(user_id,pivot_data, 'correlation',4)
+	#use similar users to get recommendations
+	c = create_reco(similarities, indices, pivot_data,books,user_id)  # fa = final answer
+	# combine list of already read books and recommendations
+	fa = {'t': t, 'c': c}
+	return fa
 
 
-
-##Helper functions.
-def getreadbooks(indices,b):
-	#needs indices
-	read = b.iloc[indices,:]
-	#create dict object
+def getreadbooks(indices, books):
+	read = books.iloc[indices, :]  #get list of read books
+	# prep df for hyperlinking in view
 	read['goodreads_book_id'] = read['goodreads_book_id'].apply(lambda x:'https://www.goodreads.com/book/show/'+str(x))
-	ans = read[['book_id','goodreads_book_id', 'authors', 'title','image_url','small_image_url','average_rating']]
-	#t = {'t':ans[['authors','title','image_url']].values.tolist()}
+	ans = read[['book_id','goodreads_book_id', 'authors', 'title','image_url', 'small_image_url', 'average_rating']]
+	#turn results into a list to be appended to the Django context dict var
 	t = ans[['authors','title','image_url','goodreads_book_id']].values.tolist()
 	return t
 
 
-def randomsample(n):
-	M = pd.read_csv('pivot.csv')
-	uidlist = np.array(M.user_id.values.tolist())
-	np.random.shuffle(uidlist)
-	res = {'d':uidlist[:n]}
-	return res
-
-
-def findksimilarusers(user_id, M, metric, k):
+def findksimilarusers(user_id, pivot_data, metric, k):
     similarities=[]
     indices=[]
-    model_knn = NearestNeighbors(metric = metric, algorithm = 'brute') 
-    model_knn.fit(M)
+    model_knn = NearestNeighbors(metric=metric, algorithm='brute') 
+    model_knn.fit(pivot_data)
 
-    distances, indices = model_knn.kneighbors(M.iloc[user_id-1, :].values.reshape(1, -1), n_neighbors = k+1)
+    distances, indices = model_knn.kneighbors(pivot_data.iloc[user_id-1, :].values.reshape(1, -1), n_neighbors=k+1)
     similarities = 1-distances.flatten()
     for i in range(0, len(indices.flatten())):
         if indices.flatten()[i]+1 == user_id:
@@ -60,9 +64,10 @@ def findksimilarusers(user_id, M, metric, k):
             
     return similarities,indices
 
-def create_reco(similarities,indices,M,b,u):
-	t = M.loc[u]
-	be = M.loc[indices.flatten()[1:][0]+1]
+
+def create_reco(similarities,indices,pivot_data,b,u):
+	t = pivot_data.loc[u]
+	be = pivot_data.loc[indices.flatten()[1:][0]+1]
 	r = be.align(t,join='left')
 	r = np.array(r)
 	df2 = pd.DataFrame(r).transpose()
@@ -71,9 +76,9 @@ def create_reco(similarities,indices,M,b,u):
 	else:
 	    df2f = df2[df2[0]>4]
 	df2f2 = df2[df2[1]>0]
-	il =df2f[:5].index #il = items list
-	ila = df2f.index #ila = items list all
-	s = df2.iloc[ila,1] #start finding recos
+	il =df2f[:5].index  #il = items list
+	ila = df2f.index  #ila = items list all
+	s = df2.iloc[ila,1]  #start finding recos
 	tempdf = pd.DataFrame(s)
 	t2 = tempdf[tempdf[1]<1][:5].index
 	recos = b.iloc[t2,:]
@@ -83,16 +88,12 @@ def create_reco(similarities,indices,M,b,u):
 	c=ans[['authors','title','image_url','goodreads_book_id']].values.tolist()
 	return c
 
-def test(u):
-	b = pd.read_csv( 'books.csv' )
-	M = pd.read_csv('pivot.csv')
-	#h = pd.read_csv('hardcode.csv')
-	row = M.iloc[u,:].nonzero()[0]
-	read_indices = M.iloc[u,row][1:6].index.astype(int)
-	#call the readbooks function I wrote.
-	t = getreadbooks(read_indices,b)
-	similarities,indices = findksimilarusers(u,M,'correlation',4)
-	c = create_reco(similarities,indices,M,b,u) # fa = final answer
-	fa = {'t':t,'c':c}
-	return fa
+
+#Unused function, left in there in case we want to shuffle things in the future.
+def randomsample(n):
+	pivot_data = pd.read_csv('pivot.csv')
+	uidlist = np.array(pivot_data.user_id.values.tolist())
+	np.random.shuffle(uidlist)
+	res = {'d':uidlist[:n]}
+	return res
 
